@@ -1,0 +1,172 @@
+/* Signup.module.css */
+
+.signupContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px; /* Add padding for smaller screens */
+}
+
+.signupForm {
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 350px; /* Ensure it doesn't exceed a maximum width */
+}
+
+.formTitle {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #b3b3b3;
+}
+
+.inputField {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background-color: #2e2e2e;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #6200ea;
+  background-color: #3a3a3a;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #6200ea;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #3700b3;
+}
+
+.loginLink {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.loginButton {
+  color: #6200ea;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .signupForm {
+    padding: 20px;
+    width: auto;
+
+  }
+
+  .formTitle {
+    font-size: 20px;
+  }
+
+  .inputField {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .submitButton {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signupForm {
+    padding: 15px;
+    width: auto;
+  }
+
+  .formTitle {
+    font-size: 18px;
+  }
+
+  .inputField {
+    font-size: 12px;
+    padding: 6px;
+    width: auto;
+
+  }
+
+  .submitButton {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .formGroup {
+    /* font-size: 13px; */
+    width: auto;
+  }
+  .formGroup label {
+    /* font-size: 13px; */
+    width: auto;
+
+  }
+}
+
+/* Additional responsive adjustments */
+@media (max-width: 320px) {
+  .signupForm {
+    padding: 10px;
+    width: auto;
+  }
+
+  .formTitle {
+    font-size: 16px;
+  }
+
+  .inputField {
+    font-size: 11px;
+    padding: 5px;
+    width: auto;
+  }
+
+  .submitButton {
+    font-size: 12px;
+    padding: 7px;
+  }
+
+  .formGroup label {
+    font-size: 12px;
+  }
+  .formGroup {
+    font-size: 12px;
+    width: auto;
+
+  }
+}

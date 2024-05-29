@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../Models/userModel").default;
+const User = require("../Models/userModel");
 const create = require("prompt-sync");
 
 const signToken = (id) => {
@@ -30,21 +30,36 @@ const createNSendToken = (user, statusCode, req, res) => {
 };
 
 const signUp = async (req, res, next) => {
-    const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
-    });
-    // 201 - Created 
-    createNSendToken(newUser, 201, req, res);
+    try {
+        const newUser = await User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            confirmPassword: req.body.confirmPassword,
+        });
+        // 201 - Created 
+        createNSendToken(newUser, 201, req, res);
+    } catch (error) {
+        if (error.code == 11000) {
+            // 400 - Bad Request
+            return res.status(400).json({
+                status: "fail",
+                message: "User already exists",
+            });
+        }
+        // 400 - Bad Request
+        return res.status(400).json({
+            status: "fail",
+            message: error.message,
+        });
+    }
 };
 const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
         // 400 - Bad Request
-        res.status(400).json({
+        return res.status(400).json({
             status: "fail",
             message: "Please provide email and password",
         });
@@ -53,13 +68,13 @@ const login = async (req, res, next) => {
     const foundUser = await User.findOne({ email }).select("+password");
     if (!foundUser || !(await foundUser.checkPassword(password, foundUser.password))) {
         // 401 - Unauthorized
-        res.status(401).json({
+        return res.status(401).json({
             status: "fail",
             message: "Incorrect email or password",
         });
     }
     // 200 - Ok
-    createNSendToken(newUser, 200, req, res);
+    createNSendToken(foundUser, 200, req, res);
 };
 const buyMembership = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(

@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please enter your email!"],
         unique: true,
         lowercase: true,
+        index:true,
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email address!']
     },
     membershipType: {
         type: String,
@@ -21,10 +23,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["user", "admin"],
         default: "user",
-    },
+    }, 
     password: {
         type: String,
         required: [true, "Please create password!"],
+        minlength: [4, "Password must be at least 4 characters long!"],
     },
     confirmPassword: {
         type: String,
@@ -35,6 +38,10 @@ const userSchema = new mongoose.Schema({
             },
             message: "Passwords do not match"
         },
+    },
+    active: {
+        type: Boolean,
+        default: true,
     },
 });
 

@@ -302,7 +302,7 @@ frenify_typing {
 
 .techwave_fn_preloader .second_circle {
     fill: none;
-    stroke-width: 10px;
+    stroke-width: 5px;
     stroke-linecap: round;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
@@ -559,7 +559,6 @@ frenify_typing span {
     border-radius: 20px;
     box-shadow: 0 5px 15px
 }
-
 .panel-opened .techwave_fn_fixedsub,
 .techwave_fn_button.enabled:after {
     display: block
