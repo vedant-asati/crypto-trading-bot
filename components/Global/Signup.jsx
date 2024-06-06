@@ -58,11 +58,11 @@ const Signup = (props) => {
   };
 
   return (
-    <div className={styles.signupContainer}>
-      <form className={styles.signupForm} onSubmit={handleSubmit}>
-        <h2 className={styles.formTitle}>Signup</h2>
-        <div className={styles.formGroup}>
-          <label htmlFor="name">Name</label>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+      <form className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md" onSubmit={handleSubmit}>
+        <h2 className="text-2xl font-bold text-white text-center mb-6">Signup</h2>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">Name</label>
           <input
             type="text"
             id="name"
@@ -70,11 +70,11 @@ const Signup = (props) => {
             value={form.name}
             onChange={handleChange}
             required
-            className={styles.inputField}
+            className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="email">Email</label>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">Email</label>
           <input
             type="email"
             id="email"
@@ -82,11 +82,11 @@ const Signup = (props) => {
             value={form.email}
             onChange={handleChange}
             required
-            className={styles.inputField}
+            className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="password">Password</label>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-2">Password</label>
           <input
             type="password"
             id="password"
@@ -94,11 +94,11 @@ const Signup = (props) => {
             value={form.password}
             onChange={handleChange}
             required
-            className={styles.inputField}
+            className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="confirmPassword">Confirm Password</label>
+        <div className="mb-6">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-400 mb-2">Confirm Password</label>
           <input
             type="password"
             id="confirmPassword"
@@ -106,12 +106,16 @@ const Signup = (props) => {
             value={form.confirmPassword}
             onChange={handleChange}
             required
-            className={styles.inputField}
+            className="w-full px-3 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
           />
         </div>
-        <button className={styles.submitButton} type="submit">Sign Up</button>
-        <div className={styles.loginLink}>
-          <p>Already have an account? <a className={styles.loginButton} onClick={() => props.setActiveComp('login')}>Login</a></p>
+        <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-md transition duration-300">
+          Sign Up
+        </button>
+        <div className="text-center text-gray-400 mt-4">
+          <p>Already have an account?{' '}
+            <span className="text-purple-500 cursor-pointer" onClick={() => props.setActiveComp('login')}>Login</span>
+          </p>
         </div>
       </form>
     </div>

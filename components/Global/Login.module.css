@@ -1,4 +1,13 @@
 /* Login.module.css */
+/* LoginWrapper.module.css */
+
+.loginWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #121212; /* Dark background color */
+}
 
 .loginContainer {
     display: flex;

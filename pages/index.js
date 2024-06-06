@@ -11,10 +11,10 @@ const index = () => {
   const { tradingBot } = useContext(Context);
 
   // state variables
-  const [activeComp, setActiveComp] = useState("home");
+  const [activeComp, setActiveComponent] = useState("login");
   const [membershipType, setMembershipType] = useState("premium");
   const [authId, setAuthId] = useState("");
-  const [Networks, setNetworks] = useState({});
+  const [networks, setNetworks] = useState({});
   const [currentNetwork, setCurrentNetwork] = useState("");
 
   // notifications
@@ -25,54 +25,39 @@ const index = () => {
     toast.success(msg, { duration: 1500 });
   }
 
-
   return (
     <>
-      <div>Hey Jai Siyaram.... Welcome from {tradingBot}</div>
-      <MovingSubmenu />
-      {/* <Preloader /> */}
+      {/* <div className="p-4">Hey Jai Siyaram.... Welcome from {tradingBot}</div> */}
+      {/* <MovingSubmenu /> */}
 
-      {activeComp == "signup" ? (
-        <Signup axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComp={setActiveComp} />
-      ) : (
-        <div className='techwave_fn_wrapper'>
-          <div className='techwave_fn_wrap'>
-            
-            {/* global components */}
-            <Search />
-            <Header
+      {
+        <div className="flex min-h-screen m-0 p-0  place-items-center">
+            <SideBar setActiveComponent={setActiveComponent} />
+          <div className="flex-1 flex flex-col">
+            {/* <Search /> */}
+            {/* <Header
               currentNetwork={currentNetwork}
-              setActiveComp={setActiveComp}
-            />
-            <SideBar setActiveComp={setActiveComp} />
+              setActiveComponent={setActiveComponent}
+            /> */}
 
-            {/* activeComp */}
-            {
-              activeComp == "home" ?
-              (<Home />) :
-              activeComp == "trade-tokens" ?
-              (<TradeTokens />) :
-              activeComp == "top-exchange-tokens" ?
-              (<TopExchangeTokens />) :
-              activeComp == "networks" ?
-              (<Networks setNetworks={setNetworks} />) :
-              activeComp == "trading" ?
-              (<Trading axios={axios} />) :
-              activeComp == "price" ?
-              (<Price />) :
-              activeComp == "profile" ?
-              (<Profile setActiveComp={setActiveComp} />) :
-              activeComp == "settings" ?
-              (<Setting setActiveComp={setActiveComp} />) :
-              activeComp == "add-token-pair" ?
-              (<AddTokenPair setActiveComp={setActiveComp} />) : ("")
-            }
+            <div className="flex-1 p-4">
+              {activeComp === "home" ? (<Home />) :
+              activeComp === "trade-tokens" ? (<TradeTokens />) :
+              activeComp === "top-exchange-tokens" ? (<TopExchangeTokens />) :
+              activeComp === "networks" ? (<Networks setNetworks={setNetworks} />) :
+              activeComp === "trading" ? (<Trading axios={axios} />) :
+              activeComp === "price" ? (<Price />) :
+              activeComp === "profile" ? (<Profile setActiveComponent={setActiveComponent} />) :
+              activeComp === "settings" ? (<Setting setActiveComponent={setActiveComponent} />) :
+              activeComp === "add-token-pair" ? (<AddTokenPair setActiveComponent={setActiveComponent} />):
+              activeComp === "login" ? (<Login axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />):
+              activeComp === "signup" ? (<Signup axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />)
+              : null}
+            </div>
           </div>
         </div>
-      )}
-
-      {(activeComp == "login") ? <Login axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComp={setActiveComp} /> : ""}
-
+      }
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };
