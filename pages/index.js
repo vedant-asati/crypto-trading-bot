@@ -11,11 +11,11 @@ const index = () => {
   const { tradingBot } = useContext(Context);
 
   // state variables
-  const [activeComp, setActiveComponent] = useState("login");
+  const [activeComponent, setActiveComponent] = useState("networks");
   const [membershipType, setMembershipType] = useState("premium");
   const [authId, setAuthId] = useState("");
   const [networks, setNetworks] = useState({});
-  const [currentNetwork, setCurrentNetwork] = useState("");
+  const [currentNetwork, setCurrentNetwork] = useState("Ethereum Mainnet");
 
   // notifications
   const errorNotific = (msg) => {
@@ -30,34 +30,36 @@ const index = () => {
       {/* <div className="p-4">Hey Jai Siyaram.... Welcome from {tradingBot}</div> */}
       {/* <MovingSubmenu /> */}
 
+      <Header
+        currentNetwork={currentNetwork}
+        setActiveComponent={setActiveComponent}
+      />
+      {/* <Search /> */}
       {
-        <div className="flex min-h-screen m-0 p-0  place-items-center">
-            <SideBar setActiveComponent={setActiveComponent} />
+        <div className="flex min-h-screen m-0 p-0 ">
+          <SideBar setActiveComponent={setActiveComponent} />
           <div className="flex-1 flex flex-col">
-            {/* <Search /> */}
-            {/* <Header
-              currentNetwork={currentNetwork}
-              setActiveComponent={setActiveComponent}
-            /> */}
 
             <div className="flex-1 p-4">
-              {activeComp === "home" ? (<Home />) :
-              activeComp === "trade-tokens" ? (<TradeTokens />) :
-              activeComp === "top-exchange-tokens" ? (<TopExchangeTokens />) :
-              activeComp === "networks" ? (<Networks setNetworks={setNetworks} />) :
-              activeComp === "trading" ? (<Trading axios={axios} />) :
-              activeComp === "price" ? (<Price />) :
-              activeComp === "profile" ? (<Profile setActiveComponent={setActiveComponent} />) :
-              activeComp === "settings" ? (<Setting setActiveComponent={setActiveComponent} />) :
-              activeComp === "add-token-pair" ? (<AddTokenPair setActiveComponent={setActiveComponent} />):
-              activeComp === "login" ? (<Login axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />):
-              activeComp === "signup" ? (<Signup axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />)
-              : null}
+            {activeComponent === "home" ? (<Home />) :
+            activeComponent === "trade-tokens" ? (<TradeTokens />) :
+            activeComponent === "top-exchange-tokens" ? (<TopExchangeTokens />) :
+            activeComponent === "networks" ? (<Networks setNetworks={setNetworks} setCurrentNetwork={setCurrentNetwork} currentNetwork={currentNetwork} />) :
+            activeComponent === "add-network" ? (<AddNetwork axios={axios}  setNetworks={setNetworks} errorNotific={errorNotific} successNotific={successNotific} />) :
+            activeComponent === "trading" ? (<Trading axios={axios} />) :
+            activeComponent === "price" ? (<Price />) :
+            activeComponent === "profile" ? (<Profile setActiveComponent={setActiveComponent} />) :
+            activeComponent === "settings" ? (<Setting setActiveComponent={setActiveComponent} />) :
+            activeComponent === "add-token-pair" ? (<AddTokenPair setActiveComponent={setActiveComponent} errorNotific={errorNotific} successNotific={successNotific} />) :
+            activeComponent === "login" ? (<Login axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />) :
+            activeComponent === "signup" ? (<Signup axios={axios} errorNotific={errorNotific} successNotific={successNotific} setActiveComponent={setActiveComponent} />)
+            : null}
             </div>
           </div>
         </div>
       }
       <Toaster position="top-right" reverseOrder={false} />
+      <Footer />
     </>
   );
 };

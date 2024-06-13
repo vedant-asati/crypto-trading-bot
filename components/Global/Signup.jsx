@@ -114,7 +114,7 @@ const Signup = (props) => {
         </button>
         <div className="text-center text-gray-400 mt-4">
           <p>Already have an account?{' '}
-            <span className="text-purple-500 cursor-pointer" onClick={() => props.setActiveComp('login')}>Login</span>
+            <span className="text-purple-500 cursor-pointer" onClick={() => props.setActiveComponent('login')}>Login</span>
           </p>
         </div>
       </form>

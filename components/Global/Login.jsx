@@ -56,7 +56,7 @@ const Login = (props) => {
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+    <div className="flex items-center min-h-screen justify-center bg-gray-900 p-4">
       <form className="bg-gray-800 p-8 rounded-lg shadow-md w-full max-w-md" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold text-white text-center mb-6">Login</h2>
         <div className="mb-4">

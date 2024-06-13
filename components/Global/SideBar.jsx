@@ -47,7 +47,7 @@ const SideBar = ({ setActiveComponent }) => {
   };
 
   return (
-    <div className={`m-3 rounded-2xl flex flex-col h-full bg-gray-900 ${isOpen ? 'w-64' : 'w-20'} transition-width duration-300 ease-in-out`}>
+    <div className={`my-5 align-top h-1/2 rounded-2xl flex flex-col bg-gray-900  ${isOpen ? 'w-64' : 'w-20'} transition-width duration-300 ease-in-out sticky top-8 overflow-y-auto`}>
       <div className="rounded-t-2xl flex items-center justify-between p-4 bg-gray-800 text-white">
         <div className="flex items-center">
           <a href="#">
@@ -61,7 +61,7 @@ const SideBar = ({ setActiveComponent }) => {
           <img src="img/lighticon/light-22.png" alt="Toggle" className={`w-10 transition-transform duration-300 ${isOpen ? ' rotate-180' : 'rotate-0 p-2'}`} />
         </button>
       </div>
-      <div className="p-4 overflow-y-auto">
+      <div className="p-4 overflow-y-auto justify-between">
         <SubComponent
           setActiveComponent={setActiveComponent}
           setActive={setActive}
