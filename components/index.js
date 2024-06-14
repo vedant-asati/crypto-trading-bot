@@ -2,7 +2,7 @@ import AddNetwork from "./Body/AddNetwork";
 import AddTokenPair from "./Body/AddTokenPair";
 import Home from "./Body/Home";
 import Networks from "./Body/Networks";
-import Price from "./Body/Price";
+import Pricing from "./Body/Pricing";
 import Profile from "./Body/Profile";
 import Setting from "./Body/Setting";
 import TopExchangeTokens from "./Body/TopExchangeTokens";
@@ -21,4 +21,4 @@ import useTimeout from "./Global/useTimeout";
 
 
 
-export { AddNetwork, AddTokenPair, Home, Networks, Price, Profile, Setting, TopExchangeTokens, TradeTokens, Trading, Footer, Header, Loader, Login, MovingSubmenu, Preloader, Search, SideBar, Signup, useTimeout }
+export { AddNetwork, AddTokenPair, Home, Networks, Pricing, Profile, Setting, TopExchangeTokens, TradeTokens, Trading, Footer, Header, Loader, Login, MovingSubmenu, Preloader, Search, SideBar, Signup, useTimeout }

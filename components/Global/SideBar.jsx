@@ -24,7 +24,7 @@ const SubComponent = ({ setActiveComponent, setActive, active, array, title, isO
 
 const SideBar = ({ setActiveComponent }) => {
   const [active, setActive] = useState("home");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const arr1 = [
     { name: "home", icon: "img/lighticon/light-14.png" },
@@ -36,7 +36,7 @@ const SideBar = ({ setActiveComponent }) => {
   const arr2 = [
     { name: "add-network", icon: "img/lighticon/light-14.png" },
     { name: "trading", icon: "img/lighticon/light-6.png" },
-    { name: "price", icon: "img/lighticon/light-16.png" },
+    { name: "pricing", icon: "img/lighticon/light-16.png" },
     { name: "profile", icon: "img/lighticon/light-4.png" },
     { name: "add-token-pair", icon: "img/lighticon/light-19.png" }
   ];

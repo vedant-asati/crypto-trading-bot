@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-const Header = ({ account, onUpgrade, setActiveComponent,currentNetwork }) => {
+const Header = ({ account, onUpgrade, setActiveComponent, currentNetwork }) => {
 
   const [userDetails, setUserDetails] = useState({});
   const [membership, setMembership] = useState(false);
-  
+
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("profile"));
@@ -38,7 +38,7 @@ const Header = ({ account, onUpgrade, setActiveComponent,currentNetwork }) => {
             </button>
             :
             <button
-              onClick={onUpgrade}
+              onClick={() => setActiveComponent("pricing")}
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition duration-300"
             >
               Upgrade

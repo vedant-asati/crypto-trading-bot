@@ -10,7 +10,10 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
       setNetworks(storedNetworks);
     }
     // setSelected(currentNetwork);
-    setCurrentNetwork(storedNetworks[0].networkName);
+    if (storedNetworks) {
+      setCurrentNetwork(storedNetworks[0].networkName);
+      localStorage.setItem("activeNetwork", JSON.stringify(storedNetworks[0]));
+    }
   }, []);
 
   return (
@@ -19,7 +22,11 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
       <div className="w-full max-w-4xl grid gap-6 grid-cols-1 md:grid-cols-2 ">
         {networks.length > 0 ? (
           networks.map((network, index) => (
-            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork == network.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => { setCurrentNetwork(network.networkName) }}>
+            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork == network.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => {
+              setCurrentNetwork(network.networkName);
+              localStorage.setItem("activeNetwork", JSON.stringify(network));
+
+            }}>
               {network.dispImg && (
                 <div className="w-full flex justify-center">
                   <img
