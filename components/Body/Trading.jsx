@@ -120,7 +120,7 @@ const Trading = ({
               onChange={(e) => selectTokenPair(JSON.parse(e.target.value))}
               className="w-full p-2 rounded-md"
             >
-              {tokens.map((token, index) => (
+              {tokens?.map((token, index) => (
                 <option key={index} value={JSON.stringify(token)}>
                   {token.token1} / {token.token2} ({token.network})
                 </option>
