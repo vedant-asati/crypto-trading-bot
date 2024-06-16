@@ -1,4 +1,4 @@
-import { signUp as signUpController } from '../../../../api/Controllers/authController';
+import { signUp as signUpController } from '../../../../Api/Controllers/authController';
 
 export default function handler(req, res) {
     if (req.method === 'POST') {

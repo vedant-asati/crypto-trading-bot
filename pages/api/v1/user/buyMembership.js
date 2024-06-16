@@ -1,4 +1,4 @@
-import { buyMembership as buyMembershipController } from '../../../../api/Controllers/authController';
+import { buyMembership as buyMembershipController } from '../../../../Api/Controllers/authController';
 
 export default function handler(req, res) {
     if (req.method === 'POST') {
