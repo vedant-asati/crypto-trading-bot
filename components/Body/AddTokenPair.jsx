@@ -92,7 +92,7 @@ const AddTokenPair = ({errorNotific,successNotific}) => {
           <input
             type="text"
             name="fee"
-            placeholder="Fee"
+            placeholder="Fee (in Token 1)"
             className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
             onChange={handleChange}
           />
@@ -106,7 +106,7 @@ const AddTokenPair = ({errorNotific,successNotific}) => {
           <input
             type="text"
             name="targetPrice"
-            placeholder="Target Price"
+            placeholder="Target Price (in Token 2)"
             className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
             onChange={handleChange}
           />

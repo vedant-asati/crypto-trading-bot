@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+const bcrypt = require("bcryptjs");
 
-const Pricing = ({ successNotific, errorNotific }) => {
+const Pricing = ({ successNotific, errorNotific, buyMembership }) => {
   const plans = [
     {
       name: 'Basic',
@@ -33,30 +34,31 @@ const Pricing = ({ successNotific, errorNotific }) => {
   ];
 
   const [currentPlan, setCurrentPlan] = useState(null);
-  const [membershipExpires, setMembershipExpires] = useState(null);
 
   useEffect(() => {
-    const storedMembership = JSON.parse(localStorage.getItem('membershipDetails'));
-    if (storedMembership) {
-      setCurrentPlan(storedMembership.plan);
-      setMembershipExpires(storedMembership.expires);
+    async function getMembershipPlan(membershipHash) {
+      for (let i = 0; i < plans.length; i++) {
+        const ans = await bcrypt.compare(plans[i].name, membershipHash);
+        if (ans) {
+          setCurrentPlan(plans[i].name);
+        }
+      }
+    }
+    const membershipHash = localStorage.getItem("membershipType");
+    if (membershipHash) {
+      getMembershipPlan(membershipHash);
     }
   }, []);
 
-  const handlePurchase = (plan) => {
-    const cnfirmation = confirm(`Are you sure for the purchase of ${plan.name} plan?`)
-    const newExpiryDate = new Date();
-    newExpiryDate.setDate(newExpiryDate.getDate() + 30);
+  const handlePurchase = async (plan) => {
+    const confirmation = confirm(`Are you sure for the purchase of ${plan.name} plan?`);
+    if (!confirmation) return;
 
-    const membershipDetails = {
-      plan: plan.name,
-      expires: newExpiryDate.toLocaleDateString(),
-    };
-
-    localStorage.setItem('membershipDetails', JSON.stringify(membershipDetails));
+    const membershipHash = await bcrypt.hash(plan.name, 12);
+    await buyMembership(membershipHash);
     setCurrentPlan(plan.name);
-    localStorage.setItem("membership", true);
-    setMembershipExpires(membershipDetails.expires);
+
+    localStorage.setItem('membershipType', membershipHash);
     successNotific(`You have selected the ${plan.name} plan`);
   };
 
@@ -65,11 +67,11 @@ const Pricing = ({ successNotific, errorNotific }) => {
       <h2 className="text-3xl font-bold text-white mb-8 text-center">
         {currentPlan ? `Your Current Plan: ${currentPlan}` : 'Membership Plans'}
       </h2>
-      {currentPlan && (
+      {/* {currentPlan && (
         <div className="text-white mb-8">
           <p>Your plan expires on: {membershipExpires}</p>
         </div>
-      )}
+      )} */}
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
         {plans
           .filter(plan => plan.name !== currentPlan)

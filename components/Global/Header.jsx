@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Header = ({ account, onUpgrade, setActiveComponent, currentNetwork }) => {
+const Header = ({ account, setActiveComponent, currentNetwork }) => {
 
   const [userDetails, setUserDetails] = useState({});
   const [membership, setMembership] = useState(false);
@@ -8,7 +8,7 @@ const Header = ({ account, onUpgrade, setActiveComponent, currentNetwork }) => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("profile"));
-    const userMembership = (localStorage.getItem("membership") === 'true');
+    const userMembership = (localStorage.getItem("membershipType"));
 
     setMembership(userMembership);
     setUserDetails(user);
@@ -20,7 +20,7 @@ const Header = ({ account, onUpgrade, setActiveComponent, currentNetwork }) => {
     <header className="flex items-center justify-between p-4 bg-gray-900 shadow-md">
       <div className="flex items-center space-x-4 ">
         <img src="img/crypto.png" alt="Logo" className="w-12 h-12" />
-        <h1 className="text-gray-600 text-xl font-mono p-1.5 border-solid border rounded-lg border-gray-800 ">{currentNetwork}</h1>
+        <h1 className="text-gray-600 text-xl font-mono p-1.5 border-solid border rounded-lg border-gray-800 ">{currentNetwork?.networkName}</h1>
       </div>
       <div className="flex items-center space-x-4">
         <input

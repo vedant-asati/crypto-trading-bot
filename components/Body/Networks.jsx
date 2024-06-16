@@ -10,7 +10,7 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
       setNetworks(storedNetworks);
     }
     // setSelected(currentNetwork);
-    if (storedNetworks) {
+    if (storedNetworks && !currentNetwork) {
       setCurrentNetwork(storedNetworks[0].networkName);
       localStorage.setItem("activeNetwork", JSON.stringify(storedNetworks[0]));
     }

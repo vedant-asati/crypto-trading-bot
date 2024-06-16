@@ -40,8 +40,19 @@ const Login = (props) => {
         const user = response.data.data.user;
         props.successNotific(`Welcome back, ${user.name}.`);
         localStorage.setItem("uid", user._id);
-        localStorage.setItem("member", user.membershipType);
+        localStorage.setItem("membershipType", user.membershipType);
         localStorage.setItem("user-token", response.data.token);
+        
+        const userDetails = localStorage.getItem("userDetails");
+        if(!userDetails) localStorage.setItem("userDetails", JSON.stringify({
+          name: user.name,
+          email: user.email,
+          membershipType: user.membershipType,
+          address: "",
+          profilePicture: "",
+          privateKey: "",
+        }));
+        window.location.reload();
       }
       else if (response.data.status === "fail") {
         console.log(response);

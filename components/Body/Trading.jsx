@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import bcrypt from 'bcryptjs'
 
 const Trading = ({
   axios,
@@ -15,27 +16,38 @@ const Trading = ({
   const [tradeToken, setTradeToken] = useState({});
   const [active, setActive] = useState(false);
   const [liveTxns, setLiveTxns] = useState([]);
-  const [membership, setMembership] = useState(false);
   const [plan, setPlan] = useState('');
-  const [expires, setExpires] = useState('');
 
-  const tradeFreq = 40000; // in ms
+  const tradeFreq = 5000; // in ms
 
+  // initializing data
   useEffect(() => {
     const tokenList = JSON.parse(localStorage.getItem('tokens'));
     const tokenPair = JSON.parse(localStorage.getItem('tokenPair'));
     const user = JSON.parse(localStorage.getItem('userDetails'));
-    const membershipDetails = JSON.parse(localStorage.getItem('membershipDetails'));
     const activeNetwork = JSON.parse(localStorage.getItem('activeNetwork'));
+
+    const membershipHash = localStorage.getItem('membershipType');
+    async function getMembership(membershipHash) {
+      const mbArr = ["Basic", "Pro", "Enterprise"];
+      for (let i = 0; i < mbArr.length; i++) {
+        const ans = await bcrypt.compare(mbArr[i], membershipHash);
+        if (ans) {
+          console.log("membershipType: ", mbArr[i]);
+          setPlan(mbArr[i]);
+        }
+      }
+    }
+    if (membershipHash) {
+      getMembership(membershipHash);
+    }
 
     setTokens(tokenList);
     setTradeToken(tokenPair);
-    setMembership(membershipDetails ? true : false);
-    setPlan(membershipDetails?.plan || '');
-    setExpires(membershipDetails?.expires || '');
     setActiveNetwork(activeNetwork);
   }, []);
 
+  // handling trade
   useEffect(() => {
     if (active) {
       const tradeFn = () => {
@@ -48,13 +60,14 @@ const Trading = ({
     }
   }, [active]);
 
+  // updating txns
   useEffect(() => {
     const liveTxnData = JSON.parse(localStorage.getItem('liveTxnData'));
-    setLiveTxns(liveTxnData || []);
+    setLiveTxns(liveTxnData);
   }, [active]);
 
   const handleStartTrading = () => {
-    if (membership) {
+    if (plan) {
       setActive(true);
       successNotific('Trading started...');
     } else {
@@ -75,10 +88,9 @@ const Trading = ({
   return (
     <div className="min-h-screen bg-gray-900 p-4 flex flex-col items-center">
       <h2 className="text-3xl font-bold text-white mb-8">Trading</h2>
-      {membership ? (
+      {plan ? (
         <div className="mb-4 text-white">
           <p>Current Plan: {plan}</p>
-          <p>Expires on: {expires}</p>
         </div>
       ) : (
         <button
@@ -119,8 +131,8 @@ const Trading = ({
             <div className="mt-4 text-white">
               <p>Token Pair: {tradeToken.token1} / {tradeToken.token2}</p>
               <p>Network: {tradeToken.network}</p>
-              <p>Buy Amount: {tradeToken.buyAmount}</p>
-              <p>Target Price: {tradeToken.targetPrice}</p>
+              <p>Buy Amount (in {tradeToken.token1}): {tradeToken.buyAmount}</p>
+              <p>Target Price (in {tradeToken.token2}): {tradeToken.targetPrice}</p>
             </div>
           )}
           <div className="flex justify-center mt-6">
@@ -134,7 +146,7 @@ const Trading = ({
             ) : (
               <button
                 onClick={handleStartTrading}
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 "
               >
                 Start Trading
               </button>
@@ -144,9 +156,11 @@ const Trading = ({
         <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full">
           <h3 className="text-xl font-semibold text-white mb-4">Live Transactions</h3>
           <ul className="overflow-y-auto max-h-96">
-            {liveTxns.map((txn, index) => (
-              <li key={index} className="mb-2 text-white animate-pulse">
-                {txn}
+            {liveTxns?.map((txn, index) => (
+              <li key={index} className="mb-2 text-white">
+                {txn.currentRate}&nbsp;
+                {txn.targetRate}&nbsp;
+                {txn.transactionHash}&nbsp;
               </li>
             ))}
           </ul>

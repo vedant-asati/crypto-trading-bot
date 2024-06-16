@@ -79,7 +79,7 @@ const login = async (req, res, next) => {
 const buyMembership = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(
         req.body.userId, {
-        membershipType: req.membershipType,
+        membershipType: req.body.membershipType,
     }, {
         new: true,
         runValidators: true,

@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import axios from 'axios';
 import { TopExchangeTokens } from '../components';
 import { local } from 'web3modal';
+import { traceGlobals } from 'next/dist/trace/shared';
 
 export const Context = React.createContext();
 
@@ -11,6 +12,8 @@ export const Provider = ({ children }) => {
     const [topTokens, setTopTokens] = useState([]);
     const [tradingCount, setTradingCount] = useState(0);
     const [loader, setLoader] = useState(false);
+    const multiplier = 1e5;
+    const bigMultiplier = BigInt(1e5);
 
     let length;
 
@@ -47,7 +50,8 @@ export const Provider = ({ children }) => {
 
     // UNISWAP contract address and ABI 
     const routerAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"; // Uniswap Router
-    const quoterAddress = "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"; // Uniswap Quoter
+    // const quoterAddress = "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"; // Uniswap Quoter
+    const quoterAddress = "0xEd1f6473345F45b75F8179591dd5bA1888cf2FB3"; // Uniswap Quoter
 
     const ROUTER = (PROVIDER) => {
         const router = new ethers.Contract(
@@ -142,19 +146,31 @@ export const Provider = ({ children }) => {
     const trade = async (activeNetwork, tradeToken) => {
         setLoader(true);
         try {
+            console.log("Starting"); //
             const provider = new ethers.JsonRpcProvider(`${activeNetwork.rpcURL}${activeNetwork.APIKey}`);
-            const wallet = new ethers.Wallet(`$0x${activeNetwork.privateKey}${activeNetwork.APIKey}`);
+            console.log(provider);
+
+            const wallet = new ethers.Wallet(activeNetwork.privateKey, provider);
+            console.log(wallet);
+            console.log("Connected to ethereum"); //
 
             const buyAmount = ethers.parseUnits(tradeToken.buyAmount, 'ether');
-            const targetPrice = BigInt(tradeToken.targetPrice);
-            const targetAmountOut = buyAmount * targetPrice;
+            const targetPrice = BigInt(Math.round(tradeToken.targetPrice * multiplier));
+            const targetAmountOut = (buyAmount * targetPrice) / bigMultiplier;
             const sellAmount = buyAmount / targetPrice;
 
+
             const account = wallet.connect(provider);
+            console.log("Running here"); //
 
             const token = TOKEN(account, tradeToken.token2Address);
+            console.log("Running here 2", token); //
             const router = ROUTER(account);
+            console.log("Running here 3", router); //
             const quoter = QUOTER(account);
+            console.log("Running here 4", quoter); //
+            console.log(tradeToken); //
+
 
             // checking price b4 trade
             const amountOut = await quoter.quoteExactInputSingle(
@@ -164,12 +180,15 @@ export const Provider = ({ children }) => {
                 buyAmount,
                 0
             );
-            console.log(amountOut);
-            console.log(`Current Exchange Rate: ${amountOut.toString()}`);
-            console.log(`Target Exchange Rate: ${targetAmountOut.toString()}`);
+            console.log("Running here 5"); //
 
+            console.log(amountOut);
+            console.log(`Current Exchange amount: ${ethers.formatUnits(amountOut, 6)} ${tradeToken.token2} `);
+            console.log(`Target Exchange amount: ${ethers.formatUnits((targetAmountOut/BigInt(1e12)),6)} ${tradeToken.token2} `);
+            console.log("Running here 6"); //
             let transactionHash;
             if (amountOut < targetAmountOut) {
+                console.log("Wait... buying token"); //
                 transactionHash = await buyToken(
                     tradeToken.token1Address,
                     tradeToken.token2Address,
@@ -178,9 +197,12 @@ export const Provider = ({ children }) => {
                     buyAmount,
                     router
                 );
+                console.log("Done buying", transactionHash); //
+
             }
             const userAddress = activeNetwork.walletAddress;
             if (amountOut > targetAmountOut) {
+                console.log("Wait... selling token"); //
                 transactionHash = await sellToken(
                     tradeToken.token1Address,
                     tradeToken.token2Address,
@@ -191,14 +213,16 @@ export const Provider = ({ children }) => {
                     router,
                     account,
                 );
+                console.log("Done selling", transactionHash); //
             }
-            
+            console.log("Running here 7"); //
             // store data
             const liveTxnData = {
                 currentRate: `${amountOut.toString()}`,
                 targetRate: `${targetAmountOut.toString()}`,
                 transactionHash: transactionHash,
             }
+            console.log("Running here 8"); //
 
             let txnDataArray = [];
 
@@ -207,19 +231,23 @@ export const Provider = ({ children }) => {
             if (storedTxnData) {
                 const parsedData = JSON.parse(storedTxnData);
                 parsedData.push(liveTxnData);
-                localStorage.setItem("liveTxnData", JSON.stringify(parsedData));
+                txnDataArray = parsedData;
+                localStorage.setItem("liveTxnData", JSON.stringify(txnDataArray));
             }
             else {
-                storedTxnData.push(liveTxnData);
-                localStorage.setItem("liveTxnData", JSON.stringify(storedTxnData));
+                txnDataArray.push(liveTxnData);
+                localStorage.setItem("liveTxnData", JSON.stringify(txnDataArray));
             }
-
+            console.log("liveTxnData", liveTxnData); //
             setTradingCount(txnDataArray.length + 1);
+            console.log("count", tradingCount); //
+
             console.log(txnDataArray);
             setLoader(false);
 
         } catch (err) {
             console.log(err);
+            setLoader(false);
         }
     }
 

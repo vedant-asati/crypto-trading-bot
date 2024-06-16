@@ -28,17 +28,14 @@ const SideBar = ({ setActiveComponent }) => {
 
   const arr1 = [
     { name: "home", icon: "img/lighticon/light-14.png" },
-    { name: "trade-tokens", icon: "img/lighticon/light-17.png" },
-    { name: "top-exchange-tokens", icon: "img/lighticon/light-7.png" },
-    { name: "networks", icon: "img/lighticon/light-15.png" }
-  ];
-
-  const arr2 = [
+    { name: "top-exchange-tokens", icon: "img/lighticon/light-26.png" },
+    { name: "trade-tokens", icon: "img/lighticon/light-25.png" },
+    { name: "networks", icon: "img/lighticon/light-15.png" },
     { name: "add-network", icon: "img/lighticon/light-14.png" },
-    { name: "trading", icon: "img/lighticon/light-6.png" },
+    { name: "add-token-pair", icon: "img/lighticon/light-19.png" },
+    { name: "trading", icon: "img/lighticon/light-23.png" },
     { name: "pricing", icon: "img/lighticon/light-16.png" },
-    { name: "profile", icon: "img/lighticon/light-4.png" },
-    { name: "add-token-pair", icon: "img/lighticon/light-19.png" }
+    { name: "profile", icon: "img/lighticon/light-8.png" },
   ];
 
   const logout = () => {
@@ -68,14 +65,6 @@ const SideBar = ({ setActiveComponent }) => {
           active={active}
           array={arr1}
           isOpen={isOpen}
-          title="Basic"
-        />
-        <SubComponent
-          setActiveComponent={setActiveComponent}
-          setActive={setActive}
-          active={active}
-          isOpen={isOpen}
-          array={arr2}
           title="Tools"
         />
         <div className="mt-4">

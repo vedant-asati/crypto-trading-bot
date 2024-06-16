@@ -12,7 +12,6 @@ const Profile = ({ errorNotific, successNotific }) => {
     address: "",
     profilePicture: "",
     privateKey: "",
-    rpcURL: "",
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -93,45 +92,13 @@ const Profile = ({ errorNotific, successNotific }) => {
     }
   }, [selectedFile]);
 
-  // const uploadToIPFS = async () => {
-  //   if (selectedFile) {
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("file", selectedFile);
-
-  //       toast.info("Uploading image to IPFS...");
-
-  //       const res = await axios({
-  //         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-  //         method: "POST",
-  //         data: formData,
-  //         maxBodyLength: "Infinity",
-  //         headers: {
-  //           pinata_api_key: process.env.NEXT_PUBLIC_PINATA_API_KEY,
-  //           pinata_secret_api_key: process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY,
-  //           "Content-Type": "multipart/form-data"
-  //         },
-  //       });
-
-  //       const ImgHash = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
-  //       setUserDetails({ ...userDetails, profilePicture: ImgHash });
-  //       toast.success("Image successfully uploaded to IPFS");
-  //     } catch (error) {
-  //       toast.error("Error uploading image to IPFS");
-  //       console.log(error);
-  //     }
-  //   } else {
-  //     toast.error("Please select a file to upload");
-  //   }
-  // };
-
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = () => {
-    const { name, email, address, profilePicture, privateKey, rpcURL } = userDetails;
-    if (!name || !email || !address || !profilePicture || !privateKey || !rpcURL) {
+    const { name, email, address, profilePicture, privateKey } = userDetails;
+    if (!name || !email || !address || !profilePicture || !privateKey) {
       errorNotific("Please fill all details");
       return;
     }
@@ -201,20 +168,6 @@ const Profile = ({ errorNotific, successNotific }) => {
               />
             ) : (
               <p className="text-white">{userDetails.address}</p>
-            )}
-          </div>
-          <div className="w-full md:w-1/2 p-2">
-            <label className="block text-gray-400 mb-2">RPC URL</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="rpcURL"
-                value={userDetails.rpcURL}
-                onChange={handleChange}
-                className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-600"
-              />
-            ) : (
-              <p className="text-white">{userDetails.rpcURL}</p>
             )}
           </div>
         </div>

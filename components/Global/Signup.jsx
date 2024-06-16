@@ -44,8 +44,18 @@ const Signup = (props) => {
         const user = response.data.data.user;
         props.successNotific(`Welcome ${user.name}. Account created...`);
         localStorage.setItem("uid", user._id);
-        localStorage.setItem("member", user.membershipType);
+        localStorage.setItem("membership", user.membershipType);
         localStorage.setItem("user-token", response.data.token);
+        localStorage.setItem("userDetails", JSON.stringify({
+          name: user.name,
+          email: user.email,
+          membershipType: user.membershipType,
+          address: "",
+          profilePicture: "",
+          privateKey: "",
+        }));
+        props.successNotific(`Complete your profile before trading...`);
+        window.location.reload();
       }
       else {
         console.log(response);

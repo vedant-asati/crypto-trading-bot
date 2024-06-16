@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": " next dev",
+    "dev": "nodemon server.js",
     "build": "next build",
     "start": "NODE_ENV=production nodemon server.js",
     "lint": "next lint",
@@ -24,6 +24,7 @@
     "next": "14.0.3",
     "nodemon": "^2.0.22",
     "openai": "^3.1.0",
+    "prompt-sync": "^4.2.0",
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
