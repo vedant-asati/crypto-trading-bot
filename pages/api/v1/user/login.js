@@ -1,4 +1,4 @@
-import { login as loginController } from '../../../../api/Controllers/authController';
+import { login as loginController } from '../../../../Api/Controllers/authController';
 
 export default function handler(req, res) {
     if (req.method === 'POST') {
