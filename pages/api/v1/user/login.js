@@ -1,8 +1,9 @@
 import { login as loginController } from '../../../../Api/Controllers/authController';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     if (req.method === 'POST') {
-        return loginController(req, res);
+        await loginController(req, res);
+        return;
     } else {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`JSR! Method ${req.method} Not Allowed`);
