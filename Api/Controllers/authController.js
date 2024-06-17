@@ -105,46 +105,33 @@ const login = async (req, res, next) => {
     createNSendToken(foundUser, 200, req, res);
     mongoose.disconnect();
 };
-
 const buyMembership = async (req, res, next) => {
-    try {
-        // DB connection
-        const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
-        let conn;
-        try {
-            conn = await mongoose.createConnection(DB, {
-                useNewUrlParser: true,
-                useCreateIndex: true,
-                useFindAndModify: true,
-            });
-            console.log("DB connected.");
-
-            const updatedUser = await User.findByIdAndUpdate(
-                req.body.userId, {
-                membershipType: req.body.membershipType,
-            }, {
-                new: true,
-                runValidators: true,
-            });
-
-            // 200 - Ok
-            res.status(200).json({
-                status: "success",
-                message: "Subscribed",
-                title: "Your account",
-                user: updatedUser,
-            });
-        } finally {
-            if (conn) {
-                await conn.close(); // Close the connection once done
-            }
-        }
-    } catch (err) {
-        console.error("Error:", err);
-        res.status(500).json({ error: "Failed to update membership" });
-    }
+    // DB connection
+    const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
+    mongoose.connect(DB, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: true,
+    }).then(() => {
+        console.log("JSR! DB connected.");
+    }).catch((err) => console.log("JSR! DB not connected. ", err));
+    
+    const updatedUser = await User.findByIdAndUpdate(
+        req.body.userId, {
+        membershipType: req.body.membershipType,
+    }, {
+        new: true,
+        runValidators: true,
+    });
+    // 200 - Ok
+    res.status(200).json({
+        status: "success",
+        message: "Subscribed",
+        title: "Your account",
+        user: updatedUser,
+    });
+    mongoose.disconnect();
 };
-
 
 
 module.exports = {
