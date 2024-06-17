@@ -1,3 +1,4 @@
+'use server'
 const jwt = require("jsonwebtoken");
 const User = require("../Models/userModel");
 const create = require("prompt-sync");
