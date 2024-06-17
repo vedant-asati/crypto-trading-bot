@@ -1,6 +1,6 @@
 import { login as loginController } from '../../../../Api/Controllers/authController';
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
     if (req.method === 'POST') {
         // mongoose.connect(DB, {
         //     useNewUrlParser: true,
