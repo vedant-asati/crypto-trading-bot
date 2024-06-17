@@ -30,6 +30,9 @@ const createNSendToken = (user, statusCode, req, res) => {
 };
 
 const signUp = async (req, res, next) => {
+    console.log(process.env.DATABASE, process.env.DATABASE_PASSWORD);
+    console.log(User);
+    console.log(User.toString());
     try {
         const newUser = await User.create({
             name: req.body.name,
@@ -56,6 +59,10 @@ const signUp = async (req, res, next) => {
 };
 const login = async (req, res, next) => {
     const { email, password } = req.body;
+    console.log(process.env.DATABASE, process.env.DATABASE_PASSWORD);
+    console.log(User);
+    console.log(User.toString());
+
 
     if (!email || !password) {
         // 400 - Bad Request
