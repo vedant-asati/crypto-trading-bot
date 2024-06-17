@@ -122,12 +122,13 @@ const index = () => {
       <Header
         currentNetwork={currentNetwork}
         setActiveComponent={setActiveComponent}
+        activeComponent={activeComponent}
       />
       {/* <Search /> */}
       {
         <div className="flex min-h-screen m-0 p-0 ">
           {(activeComponent === "login" || activeComponent === "signup") ?
-          "" : <SideBar setActiveComponent={setActiveComponent} />
+            "" : <SideBar setActiveComponent={setActiveComponent} />
           }
           <div className="flex-1 flex flex-col">
             <div className="flex-1 p-4">
