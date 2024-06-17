@@ -60,7 +60,7 @@ const index = () => {
       for (let i = 0; i < mbArr.length; i++) {
         const ans = await bcrypt.compare(mbArr[i], membershipHash);
         if (ans) {
-          console.log("membershipType: ", mbArr[i]);
+          console.log("membershipType:", mbArr[i]);
           setMembershipType(mbArr[i]);
         }
       }
@@ -77,7 +77,7 @@ const index = () => {
       setActiveComponent("login");
     }
     else {
-      setActiveComponent("trading");
+      setActiveComponent("home");
       setJWT(userToken);
       setuid(uid);
       setMembershipType(membershipType);

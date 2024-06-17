@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const Networks = ({ setCurrentNetwork, currentNetwork }) => {
-  const [networks, setNetworks] = useState([]);
+  const [networks, setNetworks] = useState([{"networkName":"Ethereum Sepolia","rpcURL":"https://eth-sepolia.g.alchemy.com/v2/","APIKey":"lWNPt0gG_iNcklHMYtc8sn1khkovfi73","walletAdd":"0x337c787D769109Fc47686ccf816281Ad26e610B6","privateKey":"07232d14bcaeecab26fba7eadd82ef94914e83d99c0b01fd1a2902fa0e300e94","dispImg":"https://gateway.pinata.cloud/ipfs/QmfUrzKtaW7cwwe3iCNLRm7M3CQtenqw599yfCHYk9ytSg"}]);
   const [selected, setSelected] = useState("Ethereum Mainnet")
 
   useEffect(() => {

@@ -2,24 +2,34 @@ import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from "react-hot-toast";
 
 const TradeTokens = () => {
-  const [tokens, setTokens] = useState([]);
+  const [tokens, setTokens] = useState([{ "token1": "WETH", "token2": "USDC", "token1Address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", "token2Address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", "network": "Sepolia", "fee": "3000", "buyAmount": "5", "targetPrice": "3524", "message": "jai siyaram" }]);
   const [filteredTokens, setFilteredTokens] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTokenPair, setSelectedTokenPair] = useState(null);
+  const [selectedTokenPair, setSelectedTokenPair] = useState({ "token1": "WETH", "token2": "USDC", "token1Address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", "token2Address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", "network": "Sepolia", "fee": "3000", "buyAmount": "5", "targetPrice": "3524", "message": "jai siyaram" });
+  const [firstTime, setFirstTime] = useState(true);
 
   useEffect(() => {
-    const storedTokens = JSON.parse(localStorage.getItem("tokens"));
-    const storedTokenPair = JSON.parse(localStorage.getItem("tokenPair"));
-    setTokens(storedTokens || []);
-    setFilteredTokens(storedTokens || []);
-    setSelectedTokenPair(storedTokenPair);
+    if (firstTime) {
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+      localStorage.setItem("tokenPair", JSON.stringify(selectedTokenPair));
+      setFilteredTokens(tokens || []);
+      setFirstTime(false);
+    }
+    else {
+      const storedTokens = JSON.parse(localStorage.getItem("tokens"));
+      const storedTokenPair = JSON.parse(localStorage.getItem("tokenPair"));
+      setTokens(storedTokens || []);
+      setFilteredTokens(tokens || []);
+      setSelectedTokenPair(storedTokenPair || []);
+    }
+
   }, []);
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    const filtered = tokens.filter(token => 
-      token.token1.toLowerCase().includes(query) || 
+    const filtered = tokens.filter(token =>
+      token.token1.toLowerCase().includes(query) ||
       token.token2.toLowerCase().includes(query)
     );
     setFilteredTokens(filtered);
@@ -61,11 +71,10 @@ const TradeTokens = () => {
                 <p className="text-gray-400 mb-2">Message: {token.message}</p>
               </div>
               <button
-                className={`py-2 px-4 rounded-md transition duration-300 font-bold ${
-                  selectedTokenPair?.token1 === token.token1 && selectedTokenPair?.token2 === token.token2 
-                    ? 'bg-purple-800 hover:bg-purple-900 text-white' 
-                    : 'bg-purple-600 hover:bg-purple-700 text-white'
-                }`}
+                className={`py-2 px-4 rounded-md transition duration-300 font-bold ${selectedTokenPair?.token1 === token.token1 && selectedTokenPair?.token2 === token.token2
+                  ? 'bg-purple-800 hover:bg-purple-900 text-white'
+                  : 'bg-purple-600 hover:bg-purple-700 text-white'
+                  }`}
                 onClick={() => selectTokenPair(token)}
               >
                 {selectedTokenPair?.token1 === token.token1 && selectedTokenPair?.token2 === token.token2 ? 'Selected' : 'Select'}
