@@ -12,13 +12,13 @@ const app = require("./app");
 // DB connection
 const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
 
-// mongoose.connect(DB, {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useFindAndModify: true,
-// }).then(()=>{
-//     console.log("JSR! DB connected.")
-// });
+mongoose.connect(DB, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
+}).then(()=>{
+    console.log("JSR! DB connected.")
+});
 
 const port =3000;
 
