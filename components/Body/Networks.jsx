@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 
 const Networks = ({ setCurrentNetwork, currentNetwork }) => {
-  const [networks, setNetworks] = useState([{"networkName":"Ethereum Sepolia","rpcURL":"https://eth-sepolia.g.alchemy.com/v2/","APIKey":"lWNPt0gG_iNcklHMYtc8sn1khkovfi73","walletAdd":"0x337c787D769109Fc47686ccf816281Ad26e610B6","privateKey":"07232d14bcaeecab26fba7eadd82ef94914e83d99c0b01fd1a2902fa0e300e94","dispImg":"https://gateway.pinata.cloud/ipfs/QmfUrzKtaW7cwwe3iCNLRm7M3CQtenqw599yfCHYk9ytSg"}]);
-  const [selected, setSelected] = useState("Ethereum Mainnet")
+  const [networks, setNetworks] = useState([{ "networkName": "Ethereum Sepolia", "rpcURL": "https://eth-sepolia.g.alchemy.com/v2/", "APIKey": "lWNPt0gG_iNcklHMYtc8sn1khkovfi73", "walletAdd": "0x337c787D769109Fc47686ccf816281Ad26e610B6", "privateKey": "07232d14bcaeecab26fba7eadd82ef94914e83d99c0b01fd1a2902fa0e300e94", "dispImg": "https://gateway.pinata.cloud/ipfs/QmfUrzKtaW7cwwe3iCNLRm7M3CQtenqw599yfCHYk9ytSg" }]);
+  const [firstTime, setFirstTime] = useState(true);
+
 
   useEffect(() => {
-    const storedNetworks = JSON.parse(localStorage.getItem("networks"));
-    if (storedNetworks) {
-      setNetworks(storedNetworks);
+    if (firstTime) {
+      localStorage.setItem("activeNetwork", JSON.stringify(networks[0]));
+      setCurrentNetwork(networks[0]);
     }
-    // setSelected(currentNetwork);
-    if (storedNetworks && !currentNetwork) {
-      setCurrentNetwork(storedNetworks[0].networkName);
-      localStorage.setItem("activeNetwork", JSON.stringify(storedNetworks[0]));
+    else {
+      const storedNetworks = JSON.parse(localStorage.getItem("networks"));
+      if (storedNetworks) {
+        setNetworks(storedNetworks);
+      }
+      if (storedNetworks && !currentNetwork) {
+        setCurrentNetwork(storedNetworks[0]);
+        localStorage.setItem("activeNetwork", JSON.stringify(storedNetworks[0]));
+      }
     }
   }, []);
 
@@ -22,8 +28,8 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
       <div className="w-full max-w-4xl grid gap-6 grid-cols-1 md:grid-cols-2 ">
         {networks.length > 0 ? (
           networks.map((network, index) => (
-            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork == network.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => {
-              setCurrentNetwork(network.networkName);
+            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork.networkName == network.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => {
+              setCurrentNetwork(network);
               localStorage.setItem("activeNetwork", JSON.stringify(network));
 
             }}>
