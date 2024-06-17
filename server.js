@@ -16,13 +16,13 @@ console.log(typeof (process.env.DATABASE));
 console.log(process.env.DATABASE_PASSWORD);
 console.log(typeof (process.env.DATABASE_PASSWORD));
 console.log("Mongo Connection string: ", DB);
-mongoose.connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: true,
-}).then((a) => {
-    console.log("JSR! DB connected. ", a)
-}).catch((err) => console.log("JSR! DB not connected. ", err));
+// mongoose.connect(DB, {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useFindAndModify: true,
+// }).then((a) => {
+//     console.log("JSR! DB connected. ", a)
+// }).catch((err) => console.log("JSR! DB not connected. ", err));
 
 const port = 3000;
 

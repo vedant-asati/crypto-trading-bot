@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../Models/userModel");
 const create = require("prompt-sync");
+const mongoose = require('mongoose');
+
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -34,6 +36,21 @@ const signUp = async (req, res, next) => {
     console.log(User);
     console.log(User.toString());
     try {
+        // DB connection
+        const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
+        console.log(process.env.DATABASE);
+        console.log(typeof (process.env.DATABASE));
+        console.log(process.env.DATABASE_PASSWORD);
+        console.log(typeof (process.env.DATABASE_PASSWORD));
+        console.log("Mongo Connection string: ", DB);
+        mongoose.connect(DB, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useFindAndModify: true,
+        }).then((a) => {
+            console.log("JSR! DB connected. ", a)
+        }).catch((err) => console.log("JSR! DB not connected. ", err));
+
         const newUser = await User.create({
             name: req.body.name,
             email: req.body.email,
@@ -42,6 +59,7 @@ const signUp = async (req, res, next) => {
         });
         // 201 - Created 
         createNSendToken(newUser, 201, req, res);
+        mongoose.disconnect();
     } catch (error) {
         if (error.code == 11000) {
             // 400 - Bad Request
@@ -58,6 +76,21 @@ const signUp = async (req, res, next) => {
     }
 };
 const login = async (req, res, next) => {
+    // DB connection
+    const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD);
+    console.log(process.env.DATABASE);
+    console.log(typeof (process.env.DATABASE));
+    console.log(process.env.DATABASE_PASSWORD);
+    console.log(typeof (process.env.DATABASE_PASSWORD));
+    console.log("Mongo Connection string: ", DB);
+    mongoose.connect(DB, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: true,
+    }).then((a) => {
+        console.log("JSR! DB connected. ", a)
+    }).catch((err) => console.log("JSR! DB not connected. ", err));
+
     const { email, password } = req.body;
     console.log(process.env.DATABASE, process.env.DATABASE_PASSWORD);
     console.log(User);
@@ -82,6 +115,7 @@ const login = async (req, res, next) => {
     }
     // 200 - Ok
     createNSendToken(foundUser, 200, req, res);
+    mongoose.disconnect();
 };
 const buyMembership = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(
