@@ -2,7 +2,15 @@ import { login as loginController } from '../../../../Api/Controllers/authContro
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
+        mongoose.connect(DB, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useFindAndModify: true,
+        }).then(()=>{
+            console.log("JSR! DB connected.")
+        });
         await loginController(req, res);
+        mongoose.disconnect();
         return;
     } else {
         res.setHeader('Allow', ['POST']);
