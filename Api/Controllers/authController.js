@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../Models/userModel");
 const create = require("prompt-sync");
 const mongoose = require('mongoose');
-import { cookies } from 'next/headers';
+const {cookies} = require('next/headers');
+// import { cookies } from 'next/headers';
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
