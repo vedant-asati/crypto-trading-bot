@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../Models/userModel");
 const create = require("prompt-sync");
 const mongoose = require('mongoose');
-
+import { cookies } from 'next/headers';
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -16,13 +16,23 @@ const createNSendToken = (user, statusCode, req, res) => {
     console.log("res", res);
     const token = signToken(user.id);
     console.log("token", token);
+
+    //     cookies().set('jwt', 'your_token_value_here', { maxAge: 3600000 }); // Expires in 1 hour
+    //   res.status(200).json({ message: 'Cookie set successfully' });
+
     res.cookie("jwt", token, {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 1000
-        ),
-        httpOnly: true,
-        secure: req.secure || req.headers["x-forwarded-proto"] == "https",
+        )
     });
+
+    // res.cookie("jwt", token, {
+    //     expires: new Date(
+    //         Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 1000
+    //     ),
+    //     httpOnly: true,
+    //     secure: req.secure || req.headers["x-forwarded-proto"] == "https",
+    // });
     //Remove pwd from output
     user.password = undefined;
 
