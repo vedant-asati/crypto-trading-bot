@@ -26,17 +26,17 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
     <div className="min-h-screen bg-gray-900 p-4 flex flex-col items-center">
       <h2 className="text-3xl font-bold text-white mb-8 text-center">Stored Networks</h2>
       <div className="w-full max-w-4xl grid gap-6 grid-cols-1 md:grid-cols-2 ">
-        {networks.length > 0 ? (
-          networks.map((network, index) => (
-            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork.networkName == network.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => {
+        {networks?.length > 0 ? (
+          networks?.map((network, index) => (
+            <div key={index} className={`flex flex-col p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 items-center align-middle place-content-center ${(currentNetwork?.networkName == network?.networkName) ? "transition-transform transform bg-gray-800" : ""}`} onClick={() => {
               setCurrentNetwork(network);
               localStorage.setItem("activeNetwork", JSON.stringify(network));
 
             }}>
-              {network.dispImg && (
+              {network?.dispImg && (
                 <div className="w-full flex justify-center">
                   <img
-                    src={network.dispImg}
+                    src={network?.dispImg}
                     alt="Display"
                     className="max-w-60 mr-3 h-auto rounded-lg shadow-md"
                   />
@@ -45,23 +45,23 @@ const Networks = ({ setCurrentNetwork, currentNetwork }) => {
               <div className="mt-2">
                 <div className="mb-2 w-48">
                   <span className="text-gray-400">Network Name: </span>
-                  <span className="text-white">{network.networkName}</span>
+                  <span className="text-white">{network?.networkName}</span>
                 </div>
                 <div className="mb-2 w-48">
                   <span className="text-gray-400">RPC URL: </span>
-                  <span className="text-white">{network.rpcURL}</span>
+                  <span className="text-white">{network?.rpcURL}</span>
                 </div>
                 {/* <div className="mb-2 w-48">
                   <span className="text-gray-400">API Key: </span>
-                  <span className="text-white">{network.APIKey}</span>
+                  <span className="text-white">{network?.APIKey}</span>
                 </div>
                 <div className="mb-2 w-48">
                   <span className="text-gray-400">Wallet Address: </span>
-                  <span className="text-white">{network.walletAdd}</span>
+                  <span className="text-white">{network?.walletAdd}</span>
                 </div>
                 <div className="mb-2 w-48">
                   <span className="text-gray-400">Private Key: </span>
-                  <span className="text-white">{network.privateKey}</span>
+                  <span className="text-white">{network?.privateKey}</span>
                 </div> */}
               </div>
             </div>
