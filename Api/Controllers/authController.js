@@ -21,7 +21,7 @@ const createNSendToken = (user, statusCode, req, res) => {
     //     cookies().set('jwt', 'your_token_value_here', { maxAge: 3600000 }); // Expires in 1 hour
     //   res.status(200).json({ message: 'Cookie set successfully' });
 
-    res.cookie("jwt", token, {
+    cookies().set("jwt", token, {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 1000
         )
