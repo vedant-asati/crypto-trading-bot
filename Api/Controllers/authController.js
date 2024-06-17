@@ -10,7 +10,12 @@ const signToken = (id) => {
     });
 }
 const createNSendToken = (user, statusCode, req, res) => {
+
+    console.log("inside createNSendToken");
+    console.log("req", req);
+    console.log("res", res);
     const token = signToken(user.id);
+    console.log("token", token);
     res.cookie("jwt", token, {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 1000
@@ -28,12 +33,13 @@ const createNSendToken = (user, statusCode, req, res) => {
             user,
         },
     });
+    console.log("finished from createNsendtoken");
 
 };
 
 const signUp = async (req, res, next) => {
     console.log(process.env.DATABASE, process.env.DATABASE_PASSWORD);
-    console.log(User);
+    console.log(User, typeof (User));
     console.log(User.toString());
     try {
         // DB connection
@@ -51,14 +57,24 @@ const signUp = async (req, res, next) => {
             console.log("JSR! DB connected. ", a)
         }).catch((err) => console.log("JSR! DB not connected. ", err));
 
+        console.log("User", User, typeof (User));
+        console.log(User.toString());
+
+
         const newUser = await User.create({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
             confirmPassword: req.body.confirmPassword,
         });
+        console.log("newUser", newUser);
+        console.log("req", req);
+        console.log("res", res);
+        console.log("next", next);
+
         // 201 - Created 
         createNSendToken(newUser, 201, req, res);
+        console.log(" returned from createNSendToken");
         mongoose.disconnect();
     } catch (error) {
         if (error.code == 11000) {
@@ -93,7 +109,7 @@ const login = async (req, res, next) => {
 
     const { email, password } = req.body;
     console.log(process.env.DATABASE, process.env.DATABASE_PASSWORD);
-    console.log(User);
+    console.log(User, typeof (User));
     console.log(User.toString());
 
 
@@ -106,6 +122,7 @@ const login = async (req, res, next) => {
     };
 
     const foundUser = await User.findOne({ email }).select("+password");
+    console.log(foundUser)
     if (!foundUser || !(await foundUser.checkPassword(password, foundUser.password))) {
         // 401 - Unauthorized
         return res.status(401).json({
